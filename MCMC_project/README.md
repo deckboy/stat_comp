@@ -1,7 +1,8 @@
 # MCMC implementation for oil and gas production models
-
+<p align="right">
 <div style="text-align: right"> Rui Kou, Wajahat Ali </div>
 <div style="text-align: right"> 04/30/2019 </div>
+</p>
 
 #### 1. Introduction
 Production Data Analysis has been particularly useful in forecasting the oil and gas production rate and estimating the ultimate recovery (EUR). The commonly used deterministic method relies heavily on the experience of the evaluator and provides little information on the uncertainty of the estimation. In this project, we apply the Bayesian probabilistic method to estimate the parameters in both empirical and physics-based models. We aim to achieve the following objectives: 
@@ -26,7 +27,7 @@ We first introduce the 3 decline curve models that we are going to implement.
 The first model is Arps model.Arps model is an impirical model, where the D parameter can be interpreted as the first order derivative line, and b parameter (constant) is the second derivative.
 
 <p align="center">
-<img src="./images/Arps.png" alt="drawing" width="500"/>
+<img src="./images/Arps.png" alt="drawing" width="400"/>
 </p>
 To implement the probablistic Arps model, we need to estimate  3 parameters: $q_i, D_i,b$
 
@@ -34,20 +35,20 @@ The second model is Transient Hyperbolic Model (THM). This model was introduced 
 Different from traditional Arps model, they bring the physics meaning into the "b" parameter. 
 
 <p align="center">
-<img src="./images/THM.png" alt="drawing" width="260"/>
+<img src="./images/THM.png" alt="drawing" width="400"/>
 </p>
     
 Instead of using a constant b parameter, the THM model assums the flow was started in the "linear" flow regime, with a constant $b_i$ = 2.0. At the end of linear flow (at time $t_elf$), the b parameter smoothly transit to a constant value of b<1.0. One example of the changing b parameter is shown below. 
 
 <p align="center">
-<img src="./images/b_THM.png" alt="drawing" width="300"/>
+<img src="./images/b_THM.png" alt="drawing" width="600"/>
 </p>
 To implement the probablistic Arps model, we need to estimate  4 parameters: $q_i, D_i, b_f,t_{elf}$. 
 
 The third model that we are implementing is the Jacobi θ Function model. This model was proposed by Gilding and Valko in 2018. This model is fully analytical based on solving a linear flow partial differential equation (PDE). The solution to the PDE is in the form of second Jacobi $\theta$ function.
 
 <p align="center">
-<img src="./images/Jacobi_theta.png" alt="drawing" width="300"/>
+<img src="./images/Jacobi_theta.png" alt="drawing" width="400"/>
 </p>
 After grouping the variable, we only need to estimate three parameters for the Jacobi $\theta$ function model, which are: $q_i, \chi, \eta$. 
 
@@ -56,17 +57,17 @@ We use Arps model as an example to show our implementation of the probablistic m
 We assume a non-informative prior distribution for each of the parameter. We pick normal distribution as the porposal distribution. The variance of the proposal normal distribution is selected in an trial and error manner. 
 
 <p align="center">
-<img src="./images/prior.png" alt="drawing" width="400"/>
+<img src="./images/prior.png" alt="drawing" width="600"/>
 </p>
 We assumed the likelyhood of observing a data point given the parameters follows normal distribution. This is illustrated in the figure below
 
 <p align="center">
-<img src="./images/model_illustration.png" alt="drawing" width="300"/>
+<img src="./images/model_illustration.png" alt="drawing" width="600"/>
 </p>
 The likelihood function formulation is shown below: 
 
 <p align="center">
-<img src="./images/likelihood.png" alt="drawing" width="250"/>
+<img src="./images/likelihood.png" alt="drawing" width="400"/>
 </p>
 
 Finally, we show the acceptance ratio formulation.Since we are using a uniform distribution as prior distribution, the ratio of posterior distribution became the ratio of lieklyhood because constant prior. 
@@ -79,19 +80,19 @@ Finally, we show the acceptance ratio formulation.Since we are using a uniform d
 We implemented all three probablistic models in Python. Detailed code is provided in the current director. We take the last 1000 samples of the parameters and showed the fitted line below. 
 
 <p align="center">
-<img src="./images/1000_samples.png" alt="drawing" width="700"/>
+<img src="./images/1000_samples.png" alt="drawing" width="900"/>
     </p>
 
 Also, we take the posterior mean of each parameter and plotted the fitted line together with original data. We also plotted the deterministic Arps model fitted by least square regression. 
 
 <p align="center">
-<img src="./images/post_mean.png" alt="drawing" width="500"/>
+<img src="./images/post_mean.png" alt="drawing" width="900"/>
     </p>
 
 We first plot the mixing and posterior distribution of parameters in the Arps model. 
 
 <p align="center">
-<img src="./images/Arps_post.png" alt="drawing" width="500"/>
+<img src="./images/Arps_post.png" alt="drawing" width="900"/>
     </p >
 
 One can observe that the mixing of the chain for each parameter is good. Also, The posterior distribution of $D_i$, $q_i$ and $b$ is in the shape of normal distribution. Here the distribution of b is truncated for b values larger than $2.0$.  This is because the largest possible b value is 2, which is the case of transient linear flow. 
@@ -99,7 +100,7 @@ One can observe that the mixing of the chain for each parameter is good. Also, T
 Next, we show the posterior distribution and mixing of THM model in the plot below. 
 
 <p align="center">
-<img src="./images/THM_post.png" alt="drawing" width="500"/>
+<img src="./images/THM_post.png" alt="drawing" width="900"/>
     </p>
 
 One can observe the mixing for $D_i$ and $q_i$ is good.And the distribution of $D_i$ and $q_i$ is also in normal distribution shape. However, the distribution and mixing of $b_f$ and $t_{elf}$ is very different. We argue this is because we train the model using only 12 months of production data. The "switching point", which is $t_{elf}$ usually happends during the second year. Thus, our current training data set has little or no information about $t_{elf}$ and $b_f$. This explaines why $b_f$ is evenly possible throughout the range of [0,1]. 
@@ -107,18 +108,20 @@ One can observe the mixing for $D_i$ and $q_i$ is good.And the distribution of $
 Lastly, we show the posterior distribution of parameters for the Jacobi $\theta$ model. 
 
 <p align="center">
-<img src="./images/jacobi_post.png" alt="drawing" width="500"/>
+<img src="./images/jacobi_post.png" alt="drawing" width="900"/>
     </p>
 
 Different from previous two models, the Jacobi $\theta$ models is very computationally expensive, because it requires a special function which has infinite summation term. We can observe the Markov chain of parameters are converging. However, the mixing parameters are not as good as previous models, becase we haven't found the best "step size" (variance) for the proposal distribution. Also, we only run the Markov chain until 10,000 samples, whereas previous models run upto 100,000 samples. 
 
 To test the prediction performance of each of the model, we randomlly selected 9 wells and plotted the true second year production data and the P10, P90 prediction interval. 
 
-<img src="./images/p_arps.png" alt="drawing" width="600"/>
+<p align="center">
+<img src="./images/p_arps.png" alt="drawing" width="800"/>
 
-<img src="./images/p_THM.png" alt="drawing" width="600"/>
+<img src="./images/p_THM.png" alt="drawing" width="800"/>
 
-<img src="./images/p_jacobi.png" alt="drawing" width="600"/>
+<img src="./images/p_jacobi.png" alt="drawing" width="800"/>
+    </p>
 
 Comparing the prediction of the three models, we have the following observation:
 - For majority of the wells (6 out of 9), the uncertainty of 2nd year production is "roughly" captured by the p10-p90 interval. 
