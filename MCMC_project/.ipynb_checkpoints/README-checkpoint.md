@@ -1,8 +1,8 @@
 # MCMC implementation for oil and gas production models
-<p align="right">
+<p align="center">
  Rui Kou, Wajahat Ali 
     </p>
-<p align="right">
+<p align="center">
  04/30/2019 
 </p>
 
