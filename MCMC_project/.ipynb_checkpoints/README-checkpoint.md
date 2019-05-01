@@ -10,8 +10,9 @@ Production Data Analysis has been particularly useful in forecasting the oil and
 
 #### 2. Oil and Gas Production Data
 In this project, we use real production data from 150 wells located in Midland Texas. The map below shows the location of wells. Note that each of the blue dot may represent around 10 wells close to each other. 
-
-<img style="float: middle;" src="./images/well_location.png" alt="drawing" width="300"/>
+<p align="center">
+<img src="./images/well_location.png" alt="drawing" width="300"/>
+</p>
 
 Oil production rate from a single well decines over the time. Depends of the formation property, operation condition and well completions quality, the decline curve could be smooth or noisy. We show the production history data of a representative well for 24 months. Our goal is to use the first 12 month data to build a proababilic model, and compare second year data with the P10-P90 interval. 
 
