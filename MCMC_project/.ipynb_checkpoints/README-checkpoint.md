@@ -41,7 +41,7 @@ Different from traditional Arps model, they bring the physics meaning into the "
 Instead of using a constant b parameter, the THM model assums the flow was started in the "linear" flow regime, with a constant $b_i$ = 2.0. At the end of linear flow (at time $t_elf$), the b parameter smoothly transit to a constant value of b<1.0. One example of the changing b parameter is shown below. 
 
 <p align="center">
-<img src="./images/b_THM.png" alt="drawing" width="600"/>
+<img src="./images/b_THM.png" alt="drawing" width="500"/>
 </p>
 To implement the probablistic Arps model, we need to estimate  4 parameters: $q_i, D_i, b_f,t_{elf}$. 
 
@@ -62,7 +62,7 @@ We assume a non-informative prior distribution for each of the parameter. We pic
 We assumed the likelyhood of observing a data point given the parameters follows normal distribution. This is illustrated in the figure below
 
 <p align="center">
-<img src="./images/model_illustration.png" alt="drawing" width="600"/>
+<img src="./images/model_illustration.png" alt="drawing" width="500"/>
 </p>
 The likelihood function formulation is shown below: 
 
@@ -86,13 +86,13 @@ We implemented all three probablistic models in Python. Detailed code is provide
 Also, we take the posterior mean of each parameter and plotted the fitted line together with original data. We also plotted the deterministic Arps model fitted by least square regression. 
 
 <p align="center">
-<img src="./images/post_mean.png" alt="drawing" width="900"/>
+<img src="./images/post_mean.png" alt="drawing" width="600"/>
     </p>
 
 We first plot the mixing and posterior distribution of parameters in the Arps model. 
 
 <p align="center">
-<img src="./images/Arps_post.png" alt="drawing" width="900"/>
+<img src="./images/Arps_post.png" alt="drawing" width="600"/>
     </p >
 
 One can observe that the mixing of the chain for each parameter is good. Also, The posterior distribution of $D_i$, $q_i$ and $b$ is in the shape of normal distribution. Here the distribution of b is truncated for b values larger than $2.0$.  This is because the largest possible b value is 2, which is the case of transient linear flow. 
@@ -100,7 +100,7 @@ One can observe that the mixing of the chain for each parameter is good. Also, T
 Next, we show the posterior distribution and mixing of THM model in the plot below. 
 
 <p align="center">
-<img src="./images/THM_post.png" alt="drawing" width="900"/>
+<img src="./images/THM_post.png" alt="drawing" width="600"/>
     </p>
 
 One can observe the mixing for $D_i$ and $q_i$ is good.And the distribution of $D_i$ and $q_i$ is also in normal distribution shape. However, the distribution and mixing of $b_f$ and $t_{elf}$ is very different. We argue this is because we train the model using only 12 months of production data. The "switching point", which is $t_{elf}$ usually happends during the second year. Thus, our current training data set has little or no information about $t_{elf}$ and $b_f$. This explaines why $b_f$ is evenly possible throughout the range of [0,1]. 
@@ -108,7 +108,7 @@ One can observe the mixing for $D_i$ and $q_i$ is good.And the distribution of $
 Lastly, we show the posterior distribution of parameters for the Jacobi $\theta$ model. 
 
 <p align="center">
-<img src="./images/jacobi_post.png" alt="drawing" width="900"/>
+<img src="./images/jacobi_post.png" alt="drawing" width="600"/>
     </p>
 
 Different from previous two models, the Jacobi $\theta$ models is very computationally expensive, because it requires a special function which has infinite summation term. We can observe the Markov chain of parameters are converging. However, the mixing parameters are not as good as previous models, becase we haven't found the best "step size" (variance) for the proposal distribution. Also, we only run the Markov chain until 10,000 samples, whereas previous models run upto 100,000 samples. 
