@@ -1,5 +1,5 @@
 # MCMC implementation for oil and gas production models
-<p align="right">
+<p align="center">
 <div style="text-align: right"> Rui Kou, Wajahat Ali </div>
 <div style="text-align: right"> 04/30/2019 </div>
 </p>
